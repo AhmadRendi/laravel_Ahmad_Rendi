@@ -27,3 +27,5 @@ Route::get('/pasien', function () {
     $data = collect($controller->getAll());
     return view('pasien', compact('data'));
 });
+
+Route::post('/pasien', [PasientController::class, 'store']);

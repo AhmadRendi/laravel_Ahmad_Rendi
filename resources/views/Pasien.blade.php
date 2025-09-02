@@ -44,30 +44,31 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                    <form id="patientForm">
+                    <form id="patientForm" method="POST">
+                        @csrf
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label for="patientName" class="form-label fw-semibold">Nama Pasien</label>
-                                <input type="text" class="form-control" id="patientName"
+                                <label for="nama" class="form-label fw-semibold">Nama Pasien</label>
+                                <input type="text" class="form-control" id="nama" name="nama"
                                     placeholder="Masukkan nama lengkap pasien" required>
                             </div>
                             <div class="col-md-6">
-                                <label for="patientPhone" class="form-label fw-semibold">Telepon</label>
-                                <input type="tel" class="form-control" id="patientPhone" placeholder="08xxxxxxxxxx"
+                                <label for="telepon" class="form-label fw-semibold">Telepon</label>
+                                <input type="tel" class="form-control" id="telepon" name="telepon" placeholder="08xxxxxxxxxx"
                                     required>
                             </div>
                             <div class="col-md-6">
-                                <label for="patientAddress" class="form-label fw-semibold">Alamat</label>
-                                <textarea class="form-control" id="patientAddress" rows="3"
+                                <label for="alamat" class="form-label fw-semibold">Alamat</label>
+                                <textarea class="form-control" id="alamat" name="alamat" rows="3"
                                     placeholder="Alamat lengkap pasien" required></textarea>
                             </div>
                             <div class="col-md-6">
-                                <label for="patientHospital" class="form-label fw-semibold">Rumah Sakit</label>
-                                <select class="form-select" id="patientHospital" required>
+                                <label for="id_rumah_sakit" class="form-label fw-semibold">Rumah Sakit</label>
+                                <select class="form-select" id="id_rumah_sakit" name="id_rumah_sakit" required>
                                     <option value="">Pilih Rumah Sakit</option>
-                                    <option value="001">RS Cipto Mangunkusumo</option>
-                                    <option value="002">RS Fatmawati</option>
-                                    <option value="003">RS Persahabatan</option>
+                                    @foreach ($data['dataRumahSakit'] as $item)
+                                        <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="col-12">
@@ -121,7 +122,7 @@
                                         </td>
                                     </tr>
                                 @else
-                                    @foreach ($data as $item)
+                                    @foreach ($data['pasien'] as $item)
                                         <tr>
                                             <td class="fw-medium">{{ $item->id }}</td>
                                             <td>
@@ -137,7 +138,7 @@
                                             <td class="text-muted">{{ $item->telepon }}</td>
                                             <td>
                                                 <span class="badge bg-primary bg-opacity-10 text-primary">
-                                                    {{ $item->rumahSakit->nama ?? 'N/A' }}
+                                                    {{ $item->rumah_sakit_nama ?? 'N/A' }}
                                                 </span>
                                             </td>
                                             <td class="text-center">

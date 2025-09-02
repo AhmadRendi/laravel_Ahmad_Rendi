@@ -146,4 +146,41 @@ $(function () {
 
     });
 
+    // Menambahkan Pasien
+    $('#patientForm').on('submit', function (e) {
+
+        e.preventDefault();
+
+        let data = $(this).serialize();
+
+        console.log(data);
+
+        $.ajax({
+            url: '/pasien',
+            method: 'POST',
+            data: data,
+            success: function (response) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil',
+                    text: response.message,
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        location.reload();
+                    }
+                });
+            },
+            error: function (xhr, status, error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal',
+                    text: 'Terjadi kesalahan saat menambahkan pasien.',
+                    confirmButtonText: 'OK'
+                });
+            }
+        });
+
+    });
+
 })
