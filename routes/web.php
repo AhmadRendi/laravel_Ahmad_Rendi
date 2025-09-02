@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PasientController;
 use App\Http\Controllers\RumahSakitController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,5 +23,7 @@ Route::get('/rumah-sakit/{id}', [RumahSakitController::class, 'getById']);
 Route::put('/rumah-sakit/update/{id}', [RumahSakitController::class, 'update']);
 
 Route::get('/pasien', function () {
-    return view('pasien');
+    $controller = new PasientController();
+    $data = collect($controller->getAll());
+    return view('pasien', compact('data'));
 });
