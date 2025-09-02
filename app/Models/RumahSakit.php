@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Auth\Middleware\Authenticate;
+use Illuminate\Container\Attributes\Auth;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class RumahSakit extends Model
+class RumahSakit extends Authenticatable
 {
     //
     protected $table = "rumah_sakit";

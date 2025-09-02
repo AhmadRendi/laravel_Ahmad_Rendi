@@ -1,37 +1,43 @@
 <?php
 
+use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\PasientController;
 use App\Http\Controllers\RumahSakitController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
-Route::get('/rumah-sakit', function () {
+Route::get('/login', function () {
+    return view('login');
+})->name('login');
+
+Route::post('/login', [AuthenticationController::class, 'auth']);
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/rumah-sakit', function () {
     $controller = new RumahSakitController();
     $data = $controller->getAll();
     return view('rumahSakit', compact('data'));
+    });
+
+    Route::delete('/rumah-sakit/delete/{id}', [RumahSakitController::class, 'destroy']);
+
+    Route::post('/rumah-sakit', [RumahSakitController::class, 'store']);
+
+    Route::get('/rumah-sakit/{id}', [RumahSakitController::class, 'getById']);
+
+    Route::put('/rumah-sakit/update/{id}', [RumahSakitController::class, 'update']);
+
+    Route::get('/pasien', function () {
+        $controller = new PasientController();
+        $data = collect($controller->getAll());
+        return view('pasien', compact('data'));
+    });
+
+    Route::post('/pasien', [PasientController::class, 'store']);
+
+    Route::put('/pasien/update/{id}', [PasientController::class, 'update']);
+
+    Route::get('pasien/{id}', [PasientController::class, 'getById']);
+
+    Route::delete('/pasien/delete/{id}', [PasientController::class, 'destroy']);
 });
-
-Route::delete('/rumah-sakit/delete/{id}', [RumahSakitController::class, 'destroy']);
-
-Route::post('/rumah-sakit', [RumahSakitController::class, 'store']);
-
-Route::get('/rumah-sakit/{id}', [RumahSakitController::class, 'getById']);
-
-Route::put('/rumah-sakit/update/{id}', [RumahSakitController::class, 'update']);
-
-Route::get('/pasien', function () {
-    $controller = new PasientController();
-    $data = collect($controller->getAll());
-    return view('pasien', compact('data'));
-});
-
-Route::post('/pasien', [PasientController::class, 'store']);
-
-Route::put('/pasien/update/{id}', [PasientController::class, 'update']);
-
-Route::get('pasien/{id}', [PasientController::class, 'getById']);
-
-Route::delete('/pasien/delete/{id}', [PasientController::class, 'destroy']);

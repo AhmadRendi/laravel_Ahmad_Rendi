@@ -71,4 +71,16 @@ class RumahSakitController extends Controller
             return response()->json(['error' => 'Gagal mengambil data'], 500);
         }
     }
+
+    public function getByEmail($email){
+        try {
+            $rumahSakit = RumahSakit::where('email', $email)->firstOrFail();
+            if($rumahSakit){
+                return true;
+            }
+            return false;
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Gagal mengambil data'], 500);
+        }
+    }
 }
