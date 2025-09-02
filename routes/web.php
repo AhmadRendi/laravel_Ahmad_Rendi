@@ -33,3 +33,5 @@ Route::post('/pasien', [PasientController::class, 'store']);
 Route::put('/pasien/update/{id}', [PasientController::class, 'update']);
 
 Route::get('pasien/{id}', [PasientController::class, 'getById']);
+
+Route::delete('/pasien/delete/{id}', [PasientController::class, 'destroy']);

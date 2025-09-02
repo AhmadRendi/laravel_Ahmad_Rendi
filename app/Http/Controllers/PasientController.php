@@ -89,4 +89,16 @@ class PasientController extends Controller
         }
     }
 
+    public function destroy($id){
+        try {
+            $pasien = Pasien::findOrFail($id);
+            $pasien->is_delete = true;
+            $pasien->save();
+
+            return response()->json(['message' => 'Berhasil menghapus pasien'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Gagal menghapus pasien'], 500);
+        }
+    }
+
 }
