@@ -59,3 +59,124 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+### Scrip Migration dan Seed Pasient
+
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use App\Models\RumahSakit;
+
+class RumahSakitSeeder extends Seeder
+{
+    public function run(): void
+    {
+        RumahSakit::create([
+            'nama' => 'Rumah Sakit Muhammadiyah',
+            'alamat' => 'Jl. Peta No. 1',
+            'telepon' => '08123456789',
+            'email' => 'rs1@example.com',
+            'is_delete' => false,
+        ]);
+
+        RumahSakit::create([
+            'nama' => 'Rumah Sakit Bhakti',
+            'alamat' => 'Jl. Merdeka No. 2',
+            'telepon' => '08198765432',
+            'email' => 'rs2@example.com',
+            'is_delete' => false,
+        ]);
+    }
+}
+
+
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('pasiens', function (Blueprint $table) {
+            $table->id();
+            $table->string('nama');
+            $table->string('alamat');
+            $table->string('telepon');
+            $table->string('email')->nullable();
+            $table->foreignId('rumah_sakit_id')->constrained('rumah_sakit')->onDelete('cascade');
+            $table->boolean('is_delete')->default(false);
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('pasiens');
+    }
+};
+
+
+### Script Migration dan Seednya Rumah Sakit
+
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('rumah_sakit', function (Blueprint $table) {
+            $table->id();
+            $table->string('nama');
+            $table->string('alamat');
+            $table->string('telepon');
+            $table->string('email')->unique();
+            $table->boolean('is_delete')->default(false);
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('rumah_sakit');
+    }
+};
+
+
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use App\Models\RumahSakit;
+
+class RumahSakitSeeder extends Seeder
+{
+    public function run(): void
+    {
+        RumahSakit::create([
+            'nama' => 'Rumah Sakit Muhammadiyah',
+            'alamat' => 'Jl. Peta No. 1',
+            'telepon' => '08123456789',
+            'email' => 'rs1@example.com',
+            'is_delete' => false,
+        ]);
+
+        RumahSakit::create([
+            'nama' => 'Rumah Sakit Bhakti',
+            'alamat' => 'Jl. Merdeka No. 2',
+            'telepon' => '08198765432',
+            'email' => 'rs2@example.com',
+            'is_delete' => false,
+        ]);
+    }
+}
