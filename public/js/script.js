@@ -183,4 +183,77 @@ $(function () {
 
     });
 
+    // Melakukan Edit Pada Pasien
+    $('.btn_edit_pasien').on('click', function () {
+
+        let id = $(this).data('id');
+
+        $.ajax({
+            url: '/pasien/' + id,
+            method: 'GET',
+            success: function (response) {
+                console.log(response);
+                $('#modalEditPasien').find('input[name="id"]').val(response.id);
+                $('#modalEditPasien').find('input[name="nama"]').val(response.nama);
+                $('#modalEditPasien').find('textarea[name="alamat"]').val(response.alamat);
+                $('#modalEditPasien').find('input[name="telepon"]').val(response.telepon);
+
+                // set value dropdown berdasarkan ID rumah sakit
+                $('#modalEditPasien').find('select[name="id_rumah_sakit"]').val(response.rumah_sakit_id);
+
+
+                $('#modalEditPasien').modal('show');
+            },
+            error: function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal',
+                    text: 'Tidak dapat mengambil data rumah sakit.',
+                    confirmButtonText: 'OK'
+                });
+            }
+        });
+
+    });
+
+
+    // Update Pasien
+    $('#updatePatient').on('submit', function (e) {
+
+        e.preventDefault();
+
+        let data = $(this).serialize();
+
+        let params = new URLSearchParams(data);
+
+        let id = params.get('id');
+
+        $.ajax({
+            url: '/pasien/update/' + id,
+            method: 'PUT',
+            data: data,
+            success: function (response) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil',
+                    text: response.message,
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        location.reload();
+                    }
+                });
+            },
+            error: function (xhr, status, error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal',
+                    text: 'Terjadi kesalahan saat menambahkan rumah sakit.',
+                    confirmButtonText: 'OK'
+                });
+            }
+        });
+
+    });
+
 })

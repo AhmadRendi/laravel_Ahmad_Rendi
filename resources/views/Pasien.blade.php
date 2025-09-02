@@ -143,10 +143,10 @@
                                             </td>
                                             <td class="text-center">
                                                 <div class="btn-group" role="group">
-                                                    <button class="btn btn-sm btn-outline-primary" title="Edit">
+                                                    <button class="btn btn-sm btn-outline-primary btn_edit_pasien" data-id="{{ $item->id }}" title="Edit">
                                                         <i class="bi bi-pencil"></i>
                                                     </button>
-                                                    <button class="btn btn-sm btn-outline-danger" title="Hapus">
+                                                    <button class="btn btn-sm btn-outline-danger btn_delete_pasien" data-id="{{ $item->id }}" title="Hapus">
                                                         <i class="bi bi-trash"></i>
                                                     </button>
                                                 </div>
@@ -181,4 +181,58 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalEditPasien" tabindex="-1" aria-labelledby="modalEditPasienLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="modalEditPasienLabel">Edit Pasien</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="card-body">
+                <form id="updatePatient" method="POST">
+                    @csrf
+                    <input type="hidden" id="edit_id" name="id">
+                     <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="nama" class="form-label fw-semibold">Nama Pasien</label>
+                                <input type="text" class="form-control" id="nama" name="nama"
+                                    placeholder="Masukkan nama lengkap pasien" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="telepon" class="form-label fw-semibold">Telepon</label>
+                                <input type="tel" class="form-control" id="telepon" name="telepon" placeholder="08xxxxxxxxxx"
+                                    required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="alamat" class="form-label fw-semibold">Alamat</label>
+                                <textarea class="form-control" id="alamat" name="alamat" rows="3"
+                                    placeholder="Alamat lengkap pasien" required></textarea>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_rumah_sakit" class="form-label fw-semibold">Rumah Sakit</label>
+                                <select class="form-select" id="id_rumah_sakit" name="id_rumah_sakit" required>
+                                    <option value="">Pilih Rumah Sakit</option>
+                                    @foreach ($data['dataRumahSakit'] as $item)
+                                        <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-success me-2">
+                                    <i class="bi bi-check-circle me-1"></i>Simpan
+                                </button>
+                                <button type="reset" class="btn btn-outline-secondary">
+                                    <i class="bi bi-arrow-clockwise me-1"></i>Reset
+                                </button>
+                            </div>
+                        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 {{ view('template.Footer') }}
